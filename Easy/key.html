@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<script>
+
+/* jshint esversion: 6*/
+const MESSAGE = "";//"Chuck Norris' keyboard has 2 keys: 0 and white space.";
+const ZERO = '00 ';
+const ONE = '0 ';
+let norisString = '';	
+
+let bitMess = '';
+let bitSeven;
+
+for(let i = 0;i < MESSAGE.length; i++) {
+	bitSeven = MESSAGE[i].charCodeAt(0).toString(2);
+	while(bitSeven.length < 7) {
+    	bitSeven = '0' + bitSeven;
+	}
+	bitMess = bitMess.concat(bitSeven);
+}
+for(let pointer = 0; pointer < bitMess.length; pointer++) {
+    if(norisString) {
+        norisString = norisString + " ";
+    }
+	let sequence = bitMess[pointer];
+	while(bitMess[pointer] == bitMess[pointer + 1]) {
+		sequence = sequence.concat(bitMess[pointer + 1]);
+		pointer++;
+	}
+	if(sequence[0] == '1') {
+		sequence = (~(parseInt(sequence, 2))).toString(2);
+		sequence = sequence.slice(2);
+		norisString = norisString.concat(ONE.concat(sequence));
+	}else {
+		norisString = norisString.concat(ZERO.concat(sequence));
+	}
+}
+console.log(norisString);
+//SPACE "0100000" -> 00 0 0 0 00 00000
+// k "1101011" -> 0 00 00 0 0 0 00 0 0 00 
+/****/
+
+</script>	
+</body>
+</html>

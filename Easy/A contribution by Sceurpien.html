@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<script>
+	/*jshint esversion:6*/
+	let arr = [['X','X','X','X','X','X','X','X','X','X','X','X', 9,'X','X'],
+			   ['X','X','X','X','X','X','X','X','X','X','X','X', 9,'X','X'],
+			   ['X','X','X','X','X','X','X','X','X', 9,'X','X','X','X','X'],
+			   ['X','X','X','X','X', 9,'X','X','X','X','X','X','X','X','X'],
+			   ['X','X','X','X',9,'X','X','X','X','X','X','X','X','X','X'],
+			   [9,'X','X','X','X','X','X','X',9,'X','X',9,'X','X','X'],
+			   ['X','X','X','X','X',9,'X','X','X','X','X','X','X','X',9],
+			   ['X',9,'X','X','X','X','X','X','X','X','X','X','X','X','X'],
+			   ['X','X','X','X','X','X','X',9,'X', 9,'X','X','X','X','X'],
+			   ['X','X','X','X','X','X','X','X','X','X','X','X',9,'X','X'],
+			   ['X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'],
+			   ['X','X',9,'X',9,'X','X','X','X','X','X','X','X','X',9],
+			   ['X','X','X','X','X','X', 9,'X','X','X', 9,'X','X','X','X'],
+			   ['X', 9,'X','X','X','X','X','X','X','X','X','X','X','X','X'],
+			   ['X','X','X','X','X','X','X','X','X','X','X','X','X','X','X']];
+	let coord = [1,1];
+	let coords = [];
+	const number = 9;
+	let elems = 905;
+	for(let i = 0; i < 15; i++) {
+		for(let k = 0; k < 15; k++ ) {
+			if(arr[i][k] === 9) {
+				coords.push([i,k]);
+			}
+		}
+	}
+	for(let i = 0; i < coords.length; i++) {
+	changeNear(arr,coords[i],arr[coords[i][0]][coords[i][1]]);
+	}
+	function changeNear(arr,coord, number) {
+		//let newCheck = [];
+		let checkArray = [[coord[0] - 1, coord[1]-1], [coord[0] - 1, coord[1]], [coord[0] - 1, coord[1]+1], [coord[0], coord[1]-1], [coord[0], coord[1]+1], [coord[0] + 1, coord[1]-1], [coord[0]+1, coord[1]], [coord[0] + 1, coord[1]+1],];
+		checkArray = checkArray.filter(function(elem) {
+			return elem[0] >= 0 && elem[0] < arr.length && elem[1] >= 0 && elem[1] < arr.length;
+		});
+		for(let near of checkArray) {
+			if( arr[near[0]][near[1]] === 'X' || arr[near[0]][near[1]] < number - 1) {
+				arr[near[0]][near[1]] = number - 1;
+				elems -= 1;
+				coords.push(near);
+			}
+		}
+		//return newCheck;
+	}
+	console.log(elems);
+</script> 

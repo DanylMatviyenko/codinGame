@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<script>
+
+let matrix = [["MULT",'$5','$2'],
+			  ["ADD",'$5','$0'],
+			  ["VALUE",'12','_'],
+			  ["ADD",'$2','$2'],
+			  ["MULT",'$3','$2'],
+			  ["SUB",'$3','$2']];/**,
+			  ["ADD",'$4','$5'],
+			  ["ADD",'$5','$6'],
+			  ["ADD",'$6','$7'],];**/
+
+for (let i = 0; i < 6; i++) {
+    console.log(findValue(i,matrix));
+}
+function findValue(i,matrix) {
+	if(matrix[i][0] == 'VALUE') {
+		if (matrix[i][3] || matrix[i][3] === 0) {
+			return matrix[i][3];
+		}
+		if(parseInt(matrix[i][1]) || matrix[i][1] === '0') {
+			matrix[i].push(parseInt(matrix[i][1]));
+			return parseInt(matrix[i][1]);
+		}else {
+			let result = findValue(parseInt(matrix[i][1][1]), matrix);
+			matrix[i].push(result);
+			return result;
+		}
+	}
+	if(matrix[i][0] == 'ADD') {
+		if (matrix[i][3]) {
+			return matrix[i][3];
+		}else if(parseInt(matrix[i][1]) && parseInt(matrix[i][2])) {
+			let result = parseInt(matrix[i][1]) + parseInt(matrix[i][2]);
+			matrix[i].push(result);
+			return result;
+		}else if(!parseInt(matrix[i][1]) && parseInt(matrix[i][2])) {
+			let result = findValue(parseInt(matrix[i][1][1]), matrix) + parseInt(matrix[i][2]);
+			matrix[i].push(result);
+			return result;
+		}else if(parseInt(matrix[i][1]) && !parseInt(matrix[i][2])) {
+			let result = findValue(parseInt(matrix[i][2][1]), matrix) + parseInt(matrix[i][1]);
+			matrix[i].push(result);
+			return result;
+		}else {
+			let result = findValue(parseInt(matrix[i][2][1]), matrix) + findValue(parseInt(matrix[i][1][1]), matrix);
+			matrix[i].push(result);
+			return result;
+		}
+	}
+	if(matrix[i][0] == 'SUB') {
+		if (matrix[i][3]) {
+			return matrix[i][3];
+		}else if(parseInt(matrix[i][1]) && parseInt(matrix[i][2])) {
+			let result = parseInt(matrix[i][1]) - parseInt(matrix[i][2]);
+			matrix[i].push(result);
+			return result;
+		}else if(!parseInt(matrix[i][1]) && parseInt(matrix[i][2])) {
+			let result = findValue(parseInt(matrix[i][1][1]), matrix) - parseInt(matrix[i][2]);
+			matrix[i].push(result);
+			return result;
+		}else if(parseInt(matrix[i][1]) && !parseInt(matrix[i][2])) {
+			let result = parseInt(matrix[i][1]) - findValue(parseInt(matrix[i][2][1]), matrix);
+			matrix[i].push(result);
+			return result;
+		}else {
+			let result = findValue(parseInt(matrix[i][1][1]), matrix) - findValue(parseInt(matrix[i][2][1]), matrix);
+			matrix[i].push(result);
+			return result;
+		}
+	}
+	if(matrix[i][0] == 'MULT') {
+		if (matrix[i][3]) {
+			return matrix[i][3];
+		}else if(parseInt(matrix[i][1]) && parseInt(matrix[i][2])) {
+			let result = parseInt(matrix[i][1]) * parseInt(matrix[i][2]);
+			matrix[i].push(result);
+			return result;
+		}else if(!parseInt(matrix[i][1]) && parseInt(matrix[i][2])) {
+			let result = findValue(parseInt(matrix[i][1][1]), matrix) * parseInt(matrix[i][2]);
+			matrix[i].push(result);
+			return result;
+		}else if(parseInt(matrix[i][1]) && !parseInt(matrix[i][2])) {
+			let result = parseInt(matrix[i][1]) * findValue(parseInt(matrix[i][2][1]), matrix);
+			matrix[i].push(result);
+			return result;
+		}else {
+			let result = findValue(parseInt(matrix[i][1][1]), matrix) * findValue(parseInt(matrix[i][2][1]), matrix);
+			matrix[i].push(result);
+			return result;
+		}
+	}
+}
+</script>
+</body>
+</html>
